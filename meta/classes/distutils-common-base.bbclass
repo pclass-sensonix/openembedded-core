@@ -13,7 +13,12 @@ export CCSHARED  = "-fPIC -DPIC"
 # the python executable
 export LINKFORSHARED = "{SECURITY_CFLAGS} -Xlinker -export-dynamic"
 
+PACKAGES =+ "${@oe.utils.ifelse(bb.data.inherits_class('image', d), '', '${PN}-ptest')}"
+
 FILES_${PN} += "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+
+FILES_${PN}-ptest += "${PYTHON_SITEPACKAGES_DIR}/**/test/*"
+ALLOW_EMPTY_${PN}-ptest = "1"
 
 FILES_${PN}-staticdev += "\
   ${PYTHON_SITEPACKAGES_DIR}/*.a \
